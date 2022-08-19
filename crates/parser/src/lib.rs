@@ -16,7 +16,7 @@ pub fn validate_id(s: &str) -> Result<()> {
     Ok(())
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct Interface {
     pub name: String,
     /// The module name to use for bindings generation.
@@ -41,7 +41,7 @@ pub type TypeId = Id<TypeDef>;
 pub type ResourceId = Id<Resource>;
 pub type InterfaceId = Id<Interface>;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TypeDef {
     pub docs: Docs,
     pub kind: TypeDefKind,
@@ -51,7 +51,7 @@ pub struct TypeDef {
     pub foreign_module: Option<String>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum TypeDefKind {
     Record(Record),
     Flags(Flags),
@@ -95,12 +95,12 @@ pub enum Int {
     U64,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Record {
     pub fields: Vec<Field>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Field {
     pub docs: Docs,
     pub name: String,
@@ -150,12 +150,12 @@ pub struct Tuple {
     pub types: Vec<Type>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Variant {
     pub cases: Vec<Case>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Case {
     pub docs: Docs,
     pub name: String,
@@ -173,7 +173,7 @@ impl Variant {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Enum {
     pub cases: Vec<EnumCase>,
 }
@@ -195,13 +195,13 @@ impl Enum {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Expected {
     pub ok: Type,
     pub err: Type,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Union {
     pub cases: Vec<UnionCase>,
 }
@@ -223,18 +223,18 @@ impl Union {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Stream {
     pub element: Type,
     pub end: Type,
 }
 
-#[derive(Clone, Default, Debug)]
+#[derive(Clone, Default, Debug, PartialEq)]
 pub struct Docs {
     pub contents: Option<String>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Resource {
     pub docs: Docs,
     pub name: String,
@@ -244,14 +244,14 @@ pub struct Resource {
     pub foreign_module: Option<String>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Global {
     pub docs: Docs,
     pub name: String,
     pub ty: Type,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Function {
     pub is_async: bool,
     pub docs: Docs,
@@ -261,7 +261,7 @@ pub struct Function {
     pub result: Type,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum FunctionKind {
     Freestanding,
     Static { resource: ResourceId, name: String },
